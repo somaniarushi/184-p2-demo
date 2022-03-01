@@ -1,5 +1,7 @@
 # Project 2 Write-Up
 
+The public facing webpage for this write-up can be found at https://somaniarushi.github.io/184-p2-demo/
+
 ## Part 1
 
 ### Description and Implementation of our Algorithm
