@@ -88,8 +88,8 @@ An interesting debugging technique we used was very similar to delta-debugging â
 ### Sharp Corners and Edges
   - Sharp corners and edges seem to get flattened out, resulting in a bulge-like structure. This is because, when one edge becomes two edges, the resulting faces are not parallel to each other but at an angle.
   - As an experiment, we went ahead and pre-split every edge in the `cube.dae` structure before upsampling. This led to some very interesting effects
-![](writeup_images/upsample1.png)
-![](writeup_images/upsample1.png)
+![](images/upsample1.png)
+![](images/upsample1.png)
 As one might observe in the comparison images above, the bulbousness of upsampling was reduced by pre-splitting all edges once, probably because pre-splitting helped inform the upsampling process. We hypothesize that, if we had pre-split our edges even more, the resulting upsampled structure would be even less bulbous.
 
 ### Asymmetry
