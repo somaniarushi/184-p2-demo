@@ -79,19 +79,19 @@ Like the debugging for edge flipping, we mostly just redid the whole thing at on
 
 ### Implementation and Debugging Techniques
 - For our loop subdivision algorithm, we stayed pretty close to the algorithm that was suggested by the specification. First, we calculated the new positions of the old vertices using the degree and the neighboring vertices positions. We did not do this for boundary edges — since we did not handle subdivision for boundary vertices.
-- Then, we calculated the location of all the new vertices, split our mesh and assigned those vertices that new position.
-- Then, we flipped any edge that connected an old and a new vertex.
-- Finally, we made sure to set all our changes in stone and clean up variables like `isNew` to make sure we could re-run subdivision without any problems trickling down.
+- Then, we calculated the location of all the new vertices, split all our original mesh edges, stopping when we encountered a new edge in our iteration, and assigned those vertices that new position saved to the edges.
+- Then, we flipped any edge that connected an old and a new vertex using the isNew variable.
+- Finally, we made sure to set all our changes in stone and clean up variables (like setting `isNew` to false at the end for all vertices and edges) to make sure we could re-run subdivision without any problems trickling down.
 
 An interesting debugging technique we used was very similar to delta-debugging — we commented out different stages of our algorithm, since they ran surprisingly independent of each other. This allowed us to pin down where our bugs were much faster than trying to debug in any other fashion, since there were so many moving elements in this question.
 
 ### Sharp Corners and Edges
   - Sharp corners and edges seem to get flattened out, resulting in a bulge-like structure. This is because, when one edge becomes two edges, the resulting faces are not parallel to each other but at an angle.
   - As an experiment, we went ahead and pre-split every edge in the `cube.dae` structure before upsampling. This led to some very interesting effects
+![](images/upsample2.png)
 ![](images/upsample1.png)
-![](images/upsample1.png)
-As one might observe in the comparison images above, the bulbousness of upsampling was reduced by pre-splitting all edges once, probably because pre-splitting helped inform the upsampling process. We hypothesize that, if we had pre-split our edges even more, the resulting upsampled structure would be even less bulbous.
+As one might observe in the comparison images above, the bulbousness/asymmetry of upsampling was reduced by pre-splitting all edges once, probably because pre-splitting helped inform the upsampling process by providing more "information" on the mesh, which made the vertex position updates less drastic. We hypothesize that, if we had pre-split our edges even more, the resulting upsampled structure would be even less bulbous.
 
 ### Asymmetry
-  - Our assumption is that the shape that upsampling takes is very dependent on the initial configuration of the mesh — the more symmetrical the initial mess, the less asymmetric it becomes eventually.
+  - Our assumption is that the shape that upsampling takes is very dependent on the initial configuration of the mesh — the more symmetrical the initial mesh, the less asymmetric it becomes eventually.
   - We split and flipped edges across the faces and discovered that in doing so we could retain some symmetry when we upsampled. This is because the faces are no  longer split asymmetrically.
